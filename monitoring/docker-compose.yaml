@@ -1,0 +1,30 @@
+version: '3'
+
+volumes:
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+services:
+
+  prometheus:
+    build: 
+      context: ./pormetheus
+    container_name: prometheus
+    ports: 
+      - "9090:9090" #not encrypted
+    volumes:
+      - prometheus-data:/prometheus
+    restart: unless-stopped
+    command: "--config.file=/config/prometheus.yaml"
+
+  grafana:
+    build: 
+      context: ./grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped

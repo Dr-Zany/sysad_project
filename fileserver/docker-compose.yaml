@@ -1,0 +1,19 @@
+version: '3'
+
+volumes:
+  nextcloud-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+services:
+
+  nextcloud:
+    build: 
+      context: ./nextcloud
+    container_name: nextcloud
+    ports: 
+      - "8080:80"
+    volumes:
+      - prometheus-data:/var/www/html/data
+    restart: unless-stopped
