@@ -9,11 +9,14 @@ volumes:
 services:
 
   nextcloud:
+    environment:
+      - NEXTCLOUD_ADMIN_USER=Admin
+      - NEXTCLOUD_ADMIN_PASSWORD=Admin
     build: 
       context: ./nextcloud
     container_name: nextcloud
     ports: 
       - "8080:80"
     volumes:
-      - prometheus-data:/var/www/html/data
+      - nextcloud-data:/var/www/html/data
     restart: unless-stopped
