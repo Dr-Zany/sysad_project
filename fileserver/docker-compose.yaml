@@ -10,13 +10,16 @@ services:
 
   nextcloud:
     environment:
-      - NEXTCLOUD_ADMIN_USER=Admin
-      - NEXTCLOUD_ADMIN_PASSWORD=Admin
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
+      - SQLITE_DATABASE=db
+      - NEXTCLOUD_TRUSTED_DOMAINS=${NEXTCLOUD_TRUSTED_DOMAINS}
     build: 
       context: ./nextcloud
     container_name: nextcloud
     ports: 
       - "8080:80"
+      - "8443:443"
     volumes:
       - nextcloud-data:/var/www/html/data
     restart: unless-stopped
