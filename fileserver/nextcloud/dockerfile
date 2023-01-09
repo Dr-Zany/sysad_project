@@ -1,4 +1,4 @@
-FROM  docker.io/nextcloud:25.0.2-apache
+FROM  nextcloud:25.0.2-apache
 
 RUN apt update  && export DEBIAN_FRONTEND=noninteractive \
  && apt -y install --no-install-recommends ssl-cert
