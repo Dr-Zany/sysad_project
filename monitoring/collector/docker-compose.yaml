@@ -9,6 +9,9 @@ volumes:
 services:
 
   prometheus:
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
     build: 
       context: ./pormetheus
     container_name: prometheus
