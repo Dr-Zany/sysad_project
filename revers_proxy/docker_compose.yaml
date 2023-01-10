@@ -1,0 +1,23 @@
+version: '3'
+
+volumes:
+  certbot_www:
+    driver: local
+  certbot_certificets:
+    driver: local
+
+services:
+  nginx:
+    build: 
+      context: ./nginx
+    volumes:
+      - certbot_certificets:/etc/letsencrypt
+      - certbot_www:/var/certbot
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes: 
+      - certbot_certificets:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email dumy@example.com -d sysad.zany.ch --agree-tos
