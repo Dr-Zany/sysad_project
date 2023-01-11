@@ -24,4 +24,3 @@ services:
     volumes: 
       - certbot_certificets:/etc/letsencrypt
       - certbot_www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --force-renewal --register-unsafely-without-email -d sysad.zany.ch --agree-tos
