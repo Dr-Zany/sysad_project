@@ -16,6 +16,7 @@ services:
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
       - SQLITE_DATABASE=db
       - NEXTCLOUD_TRUSTED_DOMAINS=${NEXTCLOUD_TRUSTED_DOMAINS}
+      - OVERWRITEWEBROOT=/nextcloud
     build: 
       context: ./nextcloud
     container_name: nextcloud
@@ -25,4 +26,17 @@ services:
       - nextcloud-data:/var/www/html/data
       - nextcloud-config:/var/www/html/config
       - nextcloud-instance:/var/www/html
+    restart: unless-stopped
+
+  backup:
+    enviromnent:
+      - REMOTE_SERVER=test
+    build:
+      context: ./backup
+    container_name: backup
+    volumes:
+      - /home/debian/.ssh/id_rsa:/root/.ssh/id_rsa
+      - nextcloud-data:/backup/data
+      - nextcloud-config:/backup/config
+      - nextcloud-instance:/backup/html
     restart: unless-stopped
