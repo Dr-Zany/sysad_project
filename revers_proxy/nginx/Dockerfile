@@ -4,7 +4,7 @@ RUN apk add --update openssl gettext \
  && rm -rf /var/cache/apk/*
 
 RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.disabled
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.sample
 COPY ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
 COPY ./proxy_settings.conf /etc/nginx/snippets/proxy_settings.conf
 COPY ./site /var/www/site

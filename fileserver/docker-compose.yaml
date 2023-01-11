@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
 
   backup:
-    enviromnent:
+    environment:
       - REMOTE_SERVER=test
     build:
       context: ./backup
