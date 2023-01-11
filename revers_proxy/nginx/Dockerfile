@@ -6,6 +6,7 @@ RUN apk add --update openssl \
 RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.disabled
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
+COPY ./proxy_settings.conf /etc/nginx/snippets/proxy_settings.conf
 COPY ./site /var/www/site
 COPY ./create_cert.sh /create_cert.sh
 RUN chmod +x /create_cert.sh
