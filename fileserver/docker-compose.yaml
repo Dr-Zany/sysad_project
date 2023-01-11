@@ -20,7 +20,7 @@ services:
       context: ./nextcloud
     container_name: nextcloud
     ports: 
-      - "8443:443"
+      - "80:4000"
     volumes:
       - nextcloud-data:/var/www/html/data
       - nextcloud-config:/var/www/html/config

@@ -17,6 +17,7 @@ services:
     ports: 
       - "443:443"
       - "80:80"
+    restart: unless-stopped
 
   certbot:
     image: certbot/certbot
@@ -24,3 +25,4 @@ services:
     volumes: 
       - certbot_certificets:/etc/letsencrypt
       - certbot_www:/var/www/certbot
+    restart: unless-stopped
