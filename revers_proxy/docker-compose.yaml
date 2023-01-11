@@ -8,6 +8,7 @@ volumes:
 
 services:
   nginx:
+    container_name: nginx
     build: 
       context: ./nginx
     volumes:

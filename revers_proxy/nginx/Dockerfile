@@ -1,8 +1,13 @@
 FROM nginx:1.23.3-alpine
 
+RUN apk add --update openssl \ 
+ && rm -rf /var/cache/apk/*
+
+RUN mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.conf.disabled
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
-COPY ./enterypoint.sh /enterypoint.sh
-RUN chmod +x /enterypoint.sh
+COPY ./create_cert.sh /create_cert.sh
+RUN chmod +x /create_cert.sh
+RUN mkdir /etc/letsencrypt
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/create_cert.sh", "/docker-entrypoint.sh", "nginx", "-g", "daemon off;"]
