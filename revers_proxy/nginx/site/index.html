@@ -1,32 +1,126 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <title>Sysad Project Fileserver</title>
-  </head>
-  <body>
-    <header>
-      <h1>Sysad Project Fileserver</h1>
-    </header>
-    <div class="content">
-      <nav>
-        <div class="ref-box">
-          <a href="/nextcloud">
-            <img src="https://nextcloud.com/wp-content/uploads/2022/10/nextcloud-logo-blue-transparent.svg" alt="Nextcloud logo" class="logo">
-            <p>Nextcloud</p>
-          </a>
-        </div>
-        <div class="ref-box">
-          <a href="/grafana">
-            <img src="https://grafana.com/static/img/menu/grafana2.svg" alt="Grafana logo" class="logo">
-            <p>Grafana</p>
-          </a>
-        </div>
-      </nav>
-    </div>
-    <footer>
-      <p>Sysad Project 2022 from Noel Sollberger, Mateusz Rüfenacht, Remo Aebi, Muhammed Boz, Nico Nagl</p>
-      <p><a href="https://github.com/Dr-Zany/sysad_project">Github</a></p>
-    </footer>
-  </body>
+
+<head>
+  <title>Sysad Project Fileserver</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    .content {
+      flex: 1;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-top: 20px;
+    }
+
+    .ref-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #fff;
+      padding: 10px;
+      width: 150px;
+      margin: 10px;
+      box-shadow: 2px 2px 8px #ccc;
+      transition: all 0.3s;
+    }
+
+    .ref-box:hover {
+      transform: scale(1.05);
+      box-shadow: 2px 2px 8px #999;
+    }
+
+    .logo {
+      width: 75px;
+      height: 75px;
+      margin-bottom: 10px;
+      object-fit: contain;
+      margin: auto;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+    }
+
+    nav a:hover {
+      color: #007bff;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      font-size: 0.8rem;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    footer a:hover {
+      color: #ddd;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Sysad Project Fileserver</h1>
+  </header>
+  <div class="content">
+    <nav>
+      <div class="ref-box">
+        <a href="/nextcloud">
+          <img src="https://nextcloud.com/wp-content/uploads/2022/10/nextcloud-logo-blue-transparent.svg"
+            alt="Nextcloud logo" class="logo">
+          <p>Nextcloud</p>
+        </a>
+      </div>
+      <div class="ref-box">
+        <a href="/grafana">
+          <img src="https://grafana.com/static/img/menu/grafana2.svg" alt="Grafana logo" class="logo">
+          <p>Grafana</p>
+        </a>
+      </div>
+    </nav>
+  </div>
+  <footer>
+    <p>Sysad Project 2022 from Noel Sollberger, Mateusz Rüfenacht, Remo Aebi, Muhammed Boz, Nico Nagl</p>
+    <p><a href="https://github.com/Dr-Zany/sysad_project">Github</a></p>
+  </footer>
+</body>
+
 </html>
