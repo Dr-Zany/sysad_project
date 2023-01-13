@@ -10,6 +10,8 @@ services:
   nginx:
     environment:
       - NX_DOMAIN=${DOMAIN}
+      - NX_NEXTCLOUD_IP=${NX_NEXTCLOUD_IP}
+      - NX_GRAFANA_IP=${NX_GRAFANA_IP}
     container_name: nginx
     build: 
       context: ./nginx
