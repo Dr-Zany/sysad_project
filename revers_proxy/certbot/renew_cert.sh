@@ -1,5 +1,6 @@
 #!/bin/sh
 
+CB_DMAIN=$CB_DMAIN
 
 if [ -f /etc/letsencrypt/live/$CB_DMAIN/cert.pem ]; then
     CERT_EXPIRATION_DATE=$(openssl x509 -in /etc/letsencrypt/live/$CB_DMAIN/cert.pem -noout -enddate | cut -d= -f 2 )
