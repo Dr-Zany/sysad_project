@@ -3,5 +3,6 @@ FROM  nextcloud:25.0.2-apache
 RUN mkdir /provisioning
 
 COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x entrypoint.sh
 COPY ./locale.config.php /provisioning/config/locale.config.php
 RUN chown www-data:www-data /provisioning/config/locale.config.php
