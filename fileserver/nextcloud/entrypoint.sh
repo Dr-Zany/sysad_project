@@ -240,7 +240,7 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
         fi
     fi
 
-    mv -f /provisioning/config/* var/www/html/config/
+    mv -f /provisioning/config/* /var/www/html/config
 
     # Update htaccess after init if requested
     if [ -n "${NEXTCLOUD_INIT_HTACCESS+x}" ] && [ "$installed_version" != "0.0.0.0" ]; then
