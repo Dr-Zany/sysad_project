@@ -5,11 +5,11 @@ if ($defaultPhoneRegion) {
 }
 
 $defaultLanguage = getenv('NC_DEFAULT_LANGUAGE');
-if ($overwriteProtocol) {
+if ($defaultLanguage) {
   $CONFIG['default_language'] = $defaultLanguage;
 }
 
 $defaultPhoneRegion = getenv('NC_DEFAULT_PHONE_REGION');
-if ($overwriteCliUrl) {
+if ($defaultPhoneRegion) {
   $CONFIG['default_phone_region'] = $defaultPhoneRegion;
 }
