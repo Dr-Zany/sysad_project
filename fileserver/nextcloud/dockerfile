@@ -1,6 +1,6 @@
 FROM  nextcloud:25.0.2-apache
 
-RUN mkdir /provisioning
+RUN mkdir -p /provisioning/config
 
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
