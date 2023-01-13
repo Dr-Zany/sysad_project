@@ -9,7 +9,7 @@ volumes:
 services:
   nginx:
     environment:
-      - DOMAIN=${DOMAIN}
+      - NX_DOMAIN=${DOMAIN}
     container_name: nginx
     build: 
       context: ./nginx
@@ -23,7 +23,7 @@ services:
 
   certbot:
     environment:
-      - DOMAIN=${DOMAIN}
+      - CB_DOMAIN=${DOMAIN}
     build: 
       context: ./certbot
     container_name: certbot

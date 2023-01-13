@@ -26,9 +26,8 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
-      - GF_SERVER_DOMAIN=sysad-project.zany.ch
-      - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s:%(http_port)s/grafana/
-      - GF_SERVE_FROM_SUB_PATH=ture
+      - GF_SERVER_DOMAIN=${GF_SERVER_DOMAIN}
+      - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s:%(http_port)s/${GF_OVERWRITEWEBROOT}
     ports:
       - "3000:3000"
     volumes:
