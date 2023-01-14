@@ -32,11 +32,13 @@ services:
       - nextcloud-data:/var/www/html/data
       - nextcloud-config:/var/www/html/config
       - nextcloud-instance:/var/www/html
+      - ./nextcloud/locale.config.php:/var/www/html/config/locale.config.php
     restart: unless-stopped
 
   backup:
     environment:
-      - BU_REMOTE="${BU_REMOT_USER}@${BU_REMOTE_SERVER}:${BU_REMOTE_FOLDER}"
+      - BU_REMOTE_SERVER=${BU_REMOT_USER}@${BU_REMOTE_SERVER}
+      - BU_REMOTE_PATH=${BU_REMOTE_PATH}
     build:
       context: ./backup
     container_name: backup

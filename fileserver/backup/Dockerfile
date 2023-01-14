@@ -1,7 +1,8 @@
 FROM alpine
 
 # Update these variables with the correct values
-ENV BU_REMOTE=user@server:/path/to/backup
+ENV BU_REMOTE_SERVER=user@server
+ENV BU_REMOTE_PATH=/path/to/backup
 
 # Install rsync and ssh
 RUN apk add --update rsync openssh

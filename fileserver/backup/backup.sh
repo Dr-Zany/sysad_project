@@ -1,29 +1,59 @@
-#!/bin/sh
+#!/bin/bash
 
-# Update these variables with the correct values
-BU_REMOTE=$BU_REMOTE
+# Define variable for remote server
+REMOTE_SERVER=$BU_REMOTE_SERVER
+REMOTE_PATH=$BU_REMOTE_PATH
 
-# Check if today is the first day of the month
-if [ "$(date +%d -d tomorrow)" == "01" ]; then
-    current_month_year=$(date +"%m-%Y")
-    # Perform a full backup
-    rsync -avz --delete -e "ssh -i /root/.ssh/id_rsa -p 22" /backup $BU_REMOTE/monthly/$current_month_year
-    # Remove old backups
-    ssh $BU_REMOTE "find /path/to/backup/monthly/* -maxdepth 0 -type d -not -path '/path/to/backup/monthly/$current_month_year' -printf '%T@ %p\n' | sort -n | head -n -12 | cut -f2- -d' ' | xargs rm -rf"
+# Define variables for backup folders
+MONTHLY_BACKUP_FOLDER=$REMOTE_SERVER:$REMOTE_PATH/monthly/
+WEEKLY_BACKUP_FOLDER=$REMOTE_SERVER:$REMOTE_PATH/weekly/
+DAILY_BACKUP_FOLDER=$REMOTE_SERVER:$REMOTE_PATH/daily/
 
-fi
+# Define variable for local backup folder
+LOCAL_BACKUP_FOLDER=/backup/
 
-# Check if today is the first day of the week
-if [ "$(date +%u)" == "1" ]; then
-    current_week=$(date +"week-%V-%Y")
-    # Perform a full backup
-    rsync -avz --delete -e "ssh -i /root/.ssh/id_rsa -p 22" /backup $BU_REMOTE/weekly/$current_week
-    # Remove old backups
-    ssh $BU_REMOTE "find /path/to/backup/weekly/* -maxdepth 0 -type d -not -path '/path/to/backup/weekly/$current_week' -printf '%T@ %p\n' | sort -n | head -n -4 | cut -f2- -d' ' | xargs rm -rf"
+# Get current day of the week
+DAY_OF_WEEK=$(date +%u)
+
+# Get current day of the month
+DAY_OF_MONTH=$(date +%d)
+
+# Get current date
+CURRENT_DATE=$(date +%Y-%m-%d)
+
+# Full Backup (First Monday of the month)
+if [ "$DAY_OF_WEEK" -eq 2 ] && [ "$DAY_OF_MONTH" -le 7 ]; then
+  # Create monthly backup folder with current date
+  MONTHLY_BACKUP_FOLDER_DATE=$MONTHLY_BACKUP_FOLDER$CURRENT_DATE
+  ssh $REMOTE_SERVER "mkdir -p $MONTHLY_BACKUP_FOLDER_DATE"
+  # Copy all files from local backup folder to monthly backup folder
+  rsync -avz -e ssh --delete $LOCAL_BACKUP_FOLDER $MONTHLY_BACKUP_FOLDER_DATE
+  # Remove all files from weekly and daily backup Folders
+  ssh $REMOTE_SERVER "rm -rf $WEEKLY_BACKUP_FOLDER/*"
+  ssh $REMOTE_SERVER "rm -rf $DAILY_BACKUP_FOLDER/*"
+  # Remove older monthly backups
+  ssh $REMOTE_SERVER "find $MONTHLY_BACKUP_FOLDER -maxdepth 1 -type d -mtime +30 -exec rm -rf {} \;"
+
+# Differential Backup (Every Friday)
+elif [ "$DAY_OF_WEEK" -eq 6 ]; then
+  # Create weekly backup folder with
+  # Create weekly backup folder with current date
+  WEEKLY_BACKUP_FOLDER_DATE=$WEEKLY_BACKUP_FOLDER$CURRENT_DATE
+  ssh user@remote-server "mkdir -p $WEEKLY_BACKUP_FOLDER_DATE"
+  # Copy all files from local backup folder to weekly backup folder
+  rsync -avz -e ssh --delete --link-dest=$MONTHLY_BACKUP_FOLDER$(ssh user@remote-server "ls -t $MONTHLY_BACKUP_FOLDER" | head -1) $LOCAL_BACKUP_FOLDER $WEEKLY_BACKUP_FOLDER_DATE
+  # Remove all files from daily backup folder
+  ssh user@remote-server "rm -rf $DAILY_BACKUP_FOLDER/*"
+  # Remove older weekly backups
+  ssh user@remote-server "find $WEEKLY_BACKUP_FOLDER -maxdepth 1 -type d -mtime +7 -exec rm -rf {} \;"
+
+# Incremental Backup (Every weekday)
 else
-    current_day=$(date +"%Y-%m-%d")
-    # Perform an incremental backup
-    rsync -avz --delete -e "ssh -i /root/.ssh/id_rsa -p 22" --link-dest=$BU_REMOTE/weekly/$current_week /backup $BU_REMOTE/daily/$current_day
-    # Remove old backups
-    ssh $BU_REMOTE "find /path/to/backup/daily/* -maxdepth 0 -type d -not -path '/path/to/backup/daily/$current_day' -printf '%T@ %p\n| sort -n | head -n -7 | cut -f2- -d' ' | xargs rm -rf"
+  # Create daily backup folder with current date
+  DAILY_BACKUP_FOLDER_DATE=$DAILY_BACKUP_FOLDER$CURRENT_DATE
+  ssh user@remote-server "mkdir -p $DAILY_BACKUP_FOLDER_DATE"
+  # Copy all files from local backup folder to daily backup folder
+  rsync -avz -e ssh --delete --link-dest=$WEEKLY_BACKUP_FOLDER$(ssh user@remote-server "ls -t $WEEKLY_BACKUP_FOLDER" | head -1) $LOCAL_BACKUP_FOLDER $DAILY_BACKUP_FOLDER_DATE
+  # Remove older daily backups
+  ssh user@remote-server "find $DAILY_BACKUP_FOLDER -maxdepth 1 -type d -mtime +1 -exec rm -rf {} \;"
 fi
