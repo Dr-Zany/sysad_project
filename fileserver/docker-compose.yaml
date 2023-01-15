@@ -32,7 +32,6 @@ services:
       - nextcloud-data:/var/www/html/data
       - nextcloud-config:/var/www/html/config
       - nextcloud-instance:/var/www/html
-      - ./nextcloud/locale.config.php:/var/www/html/config/locale.config.php
     restart: unless-stopped
 
   backup:
