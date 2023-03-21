@@ -10,26 +10,18 @@ global:
 # Here it's Prometheus itself.
 scrape_configs:
 
-  - job_name: 'fileserver_node_exporter'
+  - job_name: 'app_node_exporter'
     static_configs:
      - targets: ['10.0.6.86:9100']
   
-  - job_name: 'fileserver_cadvisor'
+  - job_name: 'app_cadvisor'
     static_configs:
      - targets: ['10.0.6.86:8080']
 
-  - job_name: 'backup_node_exporter'
-    static_configs:
-     - targets: ['10.0.4.216:9100']
-  
-  - job_name: 'backup_cadvisor'
-    static_configs:
-     - targets: ['10.0.4.216:8080']
-
-  - job_name: 'monitoring_node_exporter'
+  - job_name: 'ngnix_node_exporter'
     static_configs:
      - targets: ['10.0.4.188:9100']
   
-  - job_name: 'monitoring_cadvisor'
+  - job_name: 'ngnix_cadvisor'
     static_configs:
      - targets: ['10.0.4.188:8080']
